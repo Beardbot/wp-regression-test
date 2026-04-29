@@ -1,0 +1,11 @@
+# Environment variables — never commit
+.env
+
+# Site config — contains real URLs; never commit
+config/sites.json
+
+# Dependencies
+node_modules/
+
+# Runtime data — screenshots, diffs, reports, database
+data/

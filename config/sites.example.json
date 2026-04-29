@@ -1,0 +1,47 @@
+{
+  "sites": [
+    {
+      "name": "Example Brochure Site",
+      "key": "example-brochure",
+      "url": "https://example.com",
+      "pages": [
+        "/",
+        "/services",
+        "/blog"
+      ],
+      "journeys": [],
+      "auth": null
+    },
+    {
+      "name": "Example WooCommerce Site",
+      "key": "example-woo",
+      "url": "https://example.com",
+      "pages": [
+        "/",
+        "/about",
+        "/contact"
+      ],
+      "journeys": ["woocommerce"],
+      "auth": null,
+      "journeyOptions": {
+        "woocommerce": {
+          "shopPath": "/shop",
+          "cartPath": "/cart",
+          "checkoutPath": "/checkout",
+          "productOffset": 0
+        }
+      }
+    }
+  ],
+  "settings": {
+    "screenshotWidth": 1280,
+    "screenshotHeight": 900,
+    "diffThreshold": 0.02,
+    "timeout": 30000,
+    "notifications": {
+      "email": {
+        "enabled": false
+      }
+    }
+  }
+}
