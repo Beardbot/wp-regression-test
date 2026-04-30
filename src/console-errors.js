@@ -1,4 +1,4 @@
-async function checkConsoleErrors(context, site, timeout = 30000) {
+async function checkConsoleErrors(context, site, timeout = 15000) {
   const results = [];
 
   for (const pagePath of site.pages) {
@@ -32,7 +32,7 @@ async function checkConsoleErrors(context, site, timeout = 30000) {
     });
 
     try {
-      await page.goto(url, { waitUntil: 'networkidle', timeout });
+      await page.goto(url, { waitUntil: 'load', timeout });
     } catch (err) {
       errors.push({ type: 'load-error', text: err.message });
     } finally {

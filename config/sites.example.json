@@ -37,7 +37,7 @@
     "screenshotWidth": 1280,
     "screenshotHeight": 900,
     "diffThreshold": 0.02,
-    "timeout": 30000,
+    "timeout": 15000,
     "notifications": {
       "email": {
         "enabled": false

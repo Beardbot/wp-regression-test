@@ -24,7 +24,7 @@ async function captureScreenshots(context, site, mode) {
 
     const page = await context.newPage();
     try {
-      await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      await page.goto(url, { waitUntil: 'load', timeout: 15000 });
       // Scroll incrementally to trigger lazy images and entrance animations
       await page.evaluate(async () => {
         const viewportHeight = window.innerHeight;
