@@ -69,6 +69,26 @@ async function run(site, context) {
       await page.locator('.single_add_to_cart_button:not(.disabled)').waitFor({ timeout: 10000 });
     });
 
+    await step('Select required product add-ons (if any)', async () => {
+      const addons = page.locator('.wc-pao-addon-container');
+      const addonCount = await addons.count();
+      if (addonCount === 0) return;
+
+      for (let i = 0; i < addonCount; i++) {
+        const addon = addons.nth(i);
+        const fieldset = addon.locator('fieldset');
+        if (await fieldset.count() === 0) continue;
+
+        const required = await fieldset.getAttribute('aria-required');
+        if (required !== 'true') continue;
+
+        const swatchLinks = addon.locator('a.wc-pao-addon-image-swatch');
+        if (await swatchLinks.count() > 0) {
+          await swatchLinks.first().click();
+        }
+      }
+    });
+
     await step('Add to cart', async () => {
       await page.locator('.single_add_to_cart_button').click();
       // Wait for the WooCommerce success notification
