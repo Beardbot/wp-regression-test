@@ -33,7 +33,8 @@ async function generateReport(allResults) {
       .map(l => `<tr>
         <td style="word-break:break-all">${l.url}</td>
         <td style="color:#E24B4A;font-weight:500">${l.status || 'ERR'}</td>
-      </tr>`).join('') || '<tr><td colspan="2" style="color:#1D9E75">No broken links</td></tr>';
+        <td style="color:#888;font-size:12px">${l.type === 'link' ? l.page : '—'}</td>
+      </tr>`).join('') || '<tr><td colspan="3" style="color:#1D9E75">No broken links</td></tr>';
 
     const consoleRows = site.console.map(c => {
       if (c.errors.length === 0) return '';
@@ -74,7 +75,7 @@ async function generateReport(allResults) {
             <div>
               <h4 style="margin:0 0 8px;font-size:14px">Broken links</h4>
               <table style="width:100%;font-size:13px;border-collapse:collapse">
-                <tr style="background:#f5f5f5"><th style="text-align:left;padding:4px 8px">URL</th><th style="text-align:left;padding:4px 8px">Status</th></tr>
+                <tr style="background:#f5f5f5"><th style="text-align:left;padding:4px 8px">URL</th><th style="text-align:left;padding:4px 8px">Status</th><th style="text-align:left;padding:4px 8px">Found on</th></tr>
                 ${linkRows}
               </table>
             </div>

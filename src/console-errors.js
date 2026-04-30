@@ -23,7 +23,7 @@ async function checkConsoleErrors(context, site, timeout = 30000) {
     page.on('requestfailed', request => {
       // Only flag non-trivial failed requests (ignore analytics, fonts etc.)
       const url = request.url();
-      const ignore = ['google-analytics', 'googletagmanager', 'hotjar', 'fonts.gstatic', 'gravatar', 'recaptcha'];
+      const ignore = ['google-analytics', 'googletagmanager', 'hotjar', 'fonts.gstatic', 'gravatar', 'recaptcha', 'maps.google.com'];
       const shouldIgnore = ignore.some(pattern => url.includes(pattern));
       if (!shouldIgnore) {
         errors.push({ type: 'request-failed', text: `Failed to load: ${url}` });
