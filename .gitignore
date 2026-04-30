@@ -9,3 +9,6 @@ node_modules/
 
 # Runtime data — screenshots, diffs, reports, database
 data/
+
+# Claude Code workspace data (worktrees, local settings)
+.claude/
