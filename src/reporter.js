@@ -22,7 +22,7 @@ async function generateReport(allResults) {
     const visualRows = site.visual.map(v => {
       const color = v.status === 'pass' ? '#1D9E75' : v.status === 'fail' ? '#E24B4A' : '#BA7517';
       return `<tr>
-        <td>${v.page}</td>
+        <td><a href="${site.url + v.page}" target="_blank" style="color:inherit">${v.page}</a></td>
         <td style="color:${color};font-weight:500">${v.status.toUpperCase()}</td>
         <td>${v.diffPercent !== null ? v.diffPercent + '%' : '—'}</td>
       </tr>`;
@@ -31,14 +31,14 @@ async function generateReport(allResults) {
     const linkRows = site.links
       .filter(l => l.status !== 200)
       .map(l => `<tr>
-        <td style="word-break:break-all">${l.url}</td>
+        <td style="word-break:break-all"><a href="${l.url}" target="_blank" style="color:inherit">${l.url}</a></td>
         <td style="color:#E24B4A;font-weight:500">${l.status || 'ERR'}</td>
-        <td style="color:#888;font-size:12px">${l.type === 'link' ? l.page : '—'}</td>
+        <td style="color:#888;font-size:12px">${l.type === 'link' ? `<a href="${site.url + l.page}" target="_blank" style="color:inherit">${l.page}</a>` : '—'}</td>
       </tr>`).join('') || '<tr><td colspan="3" style="color:#1D9E75">No broken links</td></tr>';
 
     const consoleRows = site.console.map(c => {
       if (c.errors.length === 0) return '';
-      return `<tr><td>${c.page}</td><td>${c.errors.map(e => `<div style="color:#E24B4A;font-size:12px">${e.type}: ${e.text}</div>`).join('')}</td></tr>`;
+      return `<tr><td><a href="${site.url + c.page}" target="_blank" style="color:inherit">${c.page}</a></td><td>${c.errors.map(e => `<div style="color:#E24B4A;font-size:12px">${e.type}: ${e.text}</div>`).join('')}</td></tr>`;
     }).filter(Boolean).join('') || '<tr><td colspan="2" style="color:#1D9E75">No console errors</td></tr>';
 
     const journeyRows = site.journeys.map(j => {
@@ -59,7 +59,7 @@ async function generateReport(allResults) {
         <div style="background:${site.passed ? '#E1F5EE' : '#FCEBEB'};padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
           <div>
             <div style="font-size:18px;font-weight:600">${site.site}</div>
-            <div style="font-size:13px;color:#666;margin-top:2px">${site.url}</div>
+            <div style="font-size:13px;color:#666;margin-top:2px"><a href="${site.url}" target="_blank" style="color:inherit">${site.url}</a></div>
           </div>
           <div style="color:${statusColor};font-weight:700;font-size:16px">${statusLabel}</div>
         </div>
