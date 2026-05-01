@@ -5,7 +5,11 @@ const { runBaseline, runTests } = require('./src/orchestrator');
 
 const args = minimist(process.argv.slice(2));
 const mode = args.mode || args.m;
-const siteKey = args.site || args.s || args._[0] || null;
+const siteKeys = args.site
+  ? [].concat(args.site)
+  : args.s
+    ? [].concat(args.s)
+    : args._;
 
 const banner = `
 ╔══════════════════════════════════════════╗
@@ -18,10 +22,10 @@ async function main() {
 
   if (!mode || !['baseline', 'test'].includes(mode)) {
     console.log(chalk.yellow('Usage:'));
-    console.log('  baseline              — capture baseline for all sites');
-    console.log('  baseline <key>        — capture baseline for one site');
-    console.log('  test                  — run regression tests for all sites');
-    console.log('  test <key>            — run regression test for one site');
+    console.log('  baseline                      — capture baseline for all sites');
+    console.log('  baseline <key> [key2 ...]     — capture baseline for one or more sites');
+    console.log('  test                          — run regression tests for all sites');
+    console.log('  test <key> [key2 ...]         — run regression tests for one or more sites');
     console.log('');
     console.log(chalk.dim("  Didn't run npm link? Use: npm run baseline  /  npm run test -- <key>"));
     process.exit(0);
@@ -29,10 +33,10 @@ async function main() {
 
   if (mode === 'baseline') {
     console.log(chalk.blue('Mode: capturing baseline screenshots\n'));
-    await runBaseline(siteKey);
+    await runBaseline(siteKeys);
   } else if (mode === 'test') {
     console.log(chalk.blue('Mode: running regression tests\n'));
-    await runTests(siteKey);
+    await runTests(siteKeys);
   }
 }
 
