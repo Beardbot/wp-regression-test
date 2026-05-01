@@ -1,5 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 const nodemailer = require('nodemailer');
-const config = require('../config/sites.json');
+const configPath = process.env.SITES_CONFIG || path.join(__dirname, '..', 'config', 'sites.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 async function sendNotification(allResults, reportPath) {
   const emailEnabled = config.settings.notifications.email.enabled;
