@@ -25,9 +25,9 @@
       "auth": null,
       "journeyOptions": {
         "woocommerce": {
-          "shopPath": "/shop",
-          "cartPath": "/cart",
-          "checkoutPath": "/checkout",
+          "shopPath": "/shop/",
+          "cartPath": "/cart/",
+          "checkoutPath": "/checkout/",
           "productOffset": 0
         }
       }
