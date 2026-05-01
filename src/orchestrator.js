@@ -19,20 +19,22 @@ const { saveRun, getLastBaseline } = require('./db');
 const { generateReport } = require('./reporter');
 const { sendNotification } = require('./notifier');
 
-function getSites(siteKey) {
-  if (siteKey) {
-    const site = config.sites.find(s => s.key === siteKey);
-    if (!site) {
-      console.error(chalk.red(`Site "${siteKey}" not found in config/sites.json`));
-      process.exit(1);
-    }
-    return [site];
+function getSites(siteKeys) {
+  if (siteKeys && siteKeys.length > 0) {
+    return siteKeys.map(key => {
+      const site = config.sites.find(s => s.key === key);
+      if (!site) {
+        console.error(chalk.red(`Site "${key}" not found in config/sites.json`));
+        process.exit(1);
+      }
+      return site;
+    });
   }
   return config.sites;
 }
 
-async function runBaseline(siteKey) {
-  const sites = getSites(siteKey);
+async function runBaseline(siteKeys) {
+  const sites = getSites(siteKeys);
 
   for (const site of sites) {
     console.log(chalk.bold(`\n→ Capturing baseline for: ${site.name}`));
@@ -57,8 +59,8 @@ async function runBaseline(siteKey) {
   console.log(chalk.green('\n✓ Baseline capture complete'));
 }
 
-async function runTests(siteKey) {
-  const sites = getSites(siteKey);
+async function runTests(siteKeys) {
+  const sites = getSites(siteKeys);
   const allResults = [];
 
   for (const site of sites) {
