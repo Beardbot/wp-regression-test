@@ -101,7 +101,7 @@ async function runTests(siteKeys) {
       console.log(chalk.blue('  Checking links...'));
       const linkResults = await checkLinks(site, context);
       siteResults.links = linkResults;
-      const linkFails = linkResults.filter(r => r.status !== 200).length;
+      const linkFails = linkResults.filter(r => r.status === 0 || r.status >= 400).length;
       console.log(linkFails > 0
         ? chalk.red(`  ✗ Links: ${linkFails} broken link(s) found`)
         : chalk.green(`  ✓ Links: all OK`)

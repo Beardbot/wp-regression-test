@@ -12,7 +12,7 @@ async function generateReport(allResults) {
 
   const siteCards = allResults.map(site => {
     const visualFails = site.visual.filter(v => v.status === 'fail').length;
-    const linkFails = site.links.filter(l => l.status !== 200 && l.type === 'page').length;
+    const linkFails = site.links.filter(l => (l.status === 0 || l.status >= 400) && l.type === 'page').length;
     const consoleFails = site.console.filter(c => c.errors.length > 0).length;
     const journeyFails = site.journeys.filter(j => !j.passed).length;
 
@@ -29,7 +29,7 @@ async function generateReport(allResults) {
     }).join('');
 
     const linkRows = site.links
-      .filter(l => l.status !== 200)
+      .filter(l => l.status === 0 || l.status >= 400)
       .map(l => `<tr>
         <td style="word-break:break-all"><a href="${l.url}" target="_blank" style="color:inherit">${l.url}</a></td>
         <td style="color:#E24B4A;font-weight:500">${l.status || 'ERR'}</td>

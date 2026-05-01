@@ -34,12 +34,12 @@ async function checkLinks(site, context) {
         checked.add(link);
 
         try {
-          const linkResponse = await page.request.get(link, { timeout: 15000 });
+          const linkResponse = await page.goto(link, { waitUntil: 'commit', timeout: 15000 });
           results.push({
             page: pagePath,
             url: link,
-            status: linkResponse.status(),
-            type: 'link'
+            status: linkResponse ? linkResponse.status() : 0,
+            type: 'link',
           });
         } catch (err) {
           results.push({
@@ -47,7 +47,7 @@ async function checkLinks(site, context) {
             url: link,
             status: 0,
             type: 'link',
-            error: err.message
+            error: err.message,
           });
         }
       }
