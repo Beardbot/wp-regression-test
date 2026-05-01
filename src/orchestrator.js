@@ -3,13 +3,14 @@ const path = require('path');
 const chalk = require('chalk');
 const { chromium } = require('playwright');
 
-const configPath = path.join(__dirname, '..', 'config', 'sites.json');
+const configPath = process.env.SITES_CONFIG || path.join(__dirname, '..', 'config', 'sites.json');
 if (!fs.existsSync(configPath)) {
-  console.error(chalk.red('Error: config/sites.json not found.'));
+  console.error(chalk.red('Error: sites.json not found.'));
   console.error('Copy config/sites.example.json to config/sites.json and add your sites.');
+  console.error('Or set SITES_CONFIG in .env to point to a sites.json at a custom path.');
   process.exit(1);
 }
-const config = require(configPath);
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const { captureScreenshots, compareScreenshots } = require('./visual-diff');
 const { checkLinks } = require('./link-checker');
 const { checkConsoleErrors } = require('./console-errors');
